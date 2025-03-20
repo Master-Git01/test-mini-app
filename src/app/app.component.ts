@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
+import { CommonModule } from '@angular/common';
 // Extend the Window interface to include Telegram
 declare global {
   interface Window {
@@ -21,24 +20,22 @@ declare global {
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, AsyncPipe],
+  imports: [FormsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  userName$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  userName: string = '';
   randomNumber: number | null = null;
 
   ngOnInit(): void {
-    // Если Telegram Web Apps API доступен, получаем начальные данные пользователя
+    // Если Telegram Web Apps API доступен, получаем данные пользователя
     if (window.Telegram && window.Telegram.WebApp) {
       const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
       if (initDataUnsafe && initDataUnsafe.user) {
-        const initialName =
-          initDataUnsafe.user.username ||
-          initDataUnsafe.user.first_name ||
-          'sdaf';
-        this.userName$.next(initialName);
+        // Предпочтение отдаем username, если его нет, используем first_name
+        this.userName =
+          initDataUnsafe.user.username || initDataUnsafe.user.first_name || '';
       }
     }
   }
@@ -50,26 +47,13 @@ export class AppComponent implements OnInit {
 
   // Функция для отправки данных боту через Telegram API
   onSendToBot(): void {
-    if (window.Telegram?.WebApp) {
+    if (window.Telegram && window.Telegram.WebApp) {
       const dataToSend = {
-        userName: this.userName$.value,
+        userName: this.userName,
         result: this.randomNumber,
       };
-
-      // Отправка данных через Telegram API (если требуется)
+      // Отправляем данные в виде строки JSON
       window.Telegram.WebApp.sendData(JSON.stringify(dataToSend));
-
-      // Альтернативный способ: отправка данных на backend через HTTP-запрос
-      fetch('https://grammy-ts-first-bot.onrender.com/receive', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSend),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log('Ответ от сервера:', data))
-        .catch((error) => console.error('Ошибка при отправке данных:', error));
     }
   }
 }
