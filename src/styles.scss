@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+/* Глобальные стили и сброс отступов */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* Глобальные стили для body – фон занимает всю доступную площадь */
+body {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center; // Центрирование по вертикали
+  justify-content: center; // Центрирование по горизонтали
+}

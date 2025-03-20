@@ -1,34 +1,28 @@
-<div class="container">
+<div class="container" [ngClass]="{ 'result-active': randomNumber !== null }">
   <h1>Telegram Mini App</h1>
 
-  <!-- Поле ввода для никнейма -->
-  <div class="form-group">
-    <label for="nickname">Никнейм:</label>
-    <input
-      id="nickname"
-      type="text"
-      [(ngModel)]="userName"
-      class="form-control"
-      placeholder="Введите никнейм"
-    />
+  <!-- Блок управления (виден до получения числа) -->
+  <div *ngIf="randomNumber === null" class="controls">
+    <div class="form-group">
+      <input
+        id="nickname"
+        type="text"
+        [value]="userName$ | async"
+        placeholder="Введите никнейм"
+      />
+    </div>
+    <button (click)="onGetNumber()" class="btn primary-btn">
+      Получить число
+    </button>
   </div>
 
-  <!-- Кнопка для генерации числа -->
-  <button (click)="onGetNumber()" class="btn btn-primary">
-    Получить число
-  </button>
-
-  <!-- Отображение сгенерированного числа -->
+  <!-- Блок результата (виден после получения числа) -->
   <div *ngIf="randomNumber !== null" class="result">
-    <p>Ваше число: {{ randomNumber }}</p>
+    <div class="number-display">
+      <p>{{ randomNumber }}</p>
+    </div>
+    <button (click)="onSendToBot()" class="btn secondary-btn">
+      Отправить боту
+    </button>
   </div>
-
-  <!-- Кнопка для отправки результата боту -->
-  <button
-    (click)="onSendToBot()"
-    class="btn btn-secondary"
-    [disabled]="randomNumber === null"
-  >
-    Отправить боту
-  </button>
 </div>

@@ -1,60 +1,119 @@
+/* Контейнер приложения – фиксированные размеры, как и раньше */
 .container {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 30px;
+  width: 320px; // Фиксированная ширина, как и раньше
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease-in-out;
 }
 
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Стили для формы */
 .form-group {
   margin-bottom: 15px;
+  text-align: left;
 }
 
-label {
+.form-group label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 14px;
 }
 
-input.form-control {
-  width: 100%;
-  padding: 8px;
-  font-size: 1em;
-  box-sizing: border-box;
-}
-
-.btn {
-  margin-top: 10px;
+.form-group input {
   width: 100%;
   padding: 10px;
-  font-size: 1em;
+  border: none;
+  border-radius: 50px; /* Значительное скругление для эффекта "по кругу" */
+  outline: none;
+  font-size: 14px;
+  /* Тень вокруг инпута */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Дополнительно можно добавить эффект при фокусе */
+.form-group input:focus {
+  box-shadow: 0 0 15px rgba(255, 111, 97, 0.5);
+}
+
+/* Общие стили для кнопок */
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-.btn-primary {
-  background-color: #0088cc;
-  border: none;
+/* Кнопки с акцентными цветами */
+.primary-btn {
+  background: #ff6f61;
   color: #fff;
-  border-radius: 4px;
+  margin-top: 10px;
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  border: none;
+.primary-btn:hover {
+  background: #ff8f81;
+}
+
+.secondary-btn {
+  background: #4caf50;
   color: #fff;
-  border-radius: 4px;
-}
-
-.btn[disabled] {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.result {
   margin-top: 20px;
-  font-size: 1.2em;
+}
+
+.secondary-btn:hover {
+  background: #66bb6a;
+}
+
+/* Плавный переход для блоков управления и результата */
+.controls,
+.result {
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* При появлении результата блок управления плавно исчезает */
+.result-active .controls {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Стиль для отображения числа */
+.number-display {
+  margin: 20px auto;
+  background: #fff;
+  color: #333;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
   font-weight: bold;
-  text-align: center;
+  animation: popIn 0.5s ease-in-out;
+}
+
+/* Анимация появления числа */
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
